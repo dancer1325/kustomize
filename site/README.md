@@ -1,51 +1,38 @@
 # kustomize website: the alpha of the alpha
 
+* legacy website 
+
 ## Overview
-This is just an example overview of what the new kustomize website might look like. It is forked from the [docsy exmaple website](https://example.docsy.dev/) and heavy based on that.
+* -- based on -- [docsy exmaple website](https://example.docsy.dev/)
 
-I'm not a frontend dev but I was mostly successful at creating what I thought would be a good outline. However, I couldn't get rid of that picture of porridge with blueberries on it on the landing page! So ignore that and imagine it's something more nautical.
+## How to run locally?
 
-I put the most effort into the `Documentation` section. The left-menu bar has the custom structure that is my creation, based on the docsy example, the content of the current kustomize documentation sources and a general vibe of documentation sites I find easy to read.
+* requisites
+  - [npm](https://www.npmjs.com/)
+  - [Go](https://go.dev/)
+  - [Hugo (Extended version)](https://gohugo.io/)
+  - container runtime, like [Docker](https://www.docker.com/)
+* ways
+  * -- via -- [Hugo (Extended version)](https://gohugo.io/)
+  * | container runtime
+    * recommended one
+* steps
+  * pull | submodule & OTHER development dependencies
+    * |Windows
+        ```powershell
+        # fetch submodule dependencies
+        git submodule update --init --recursive --depth 1
+        ```
+    * | Linux / Unix
+        ```bash
+        # fetch submodule dependencies
+        make module-init
+        ```
+   * follow
+     * [-- via -- container](#---via----container) or
+     * [-- via -- Hugo](#---via----hugo)
 
-The top bar is customized with the sections I think make sense to split. However, I have customized nothing else inside the `Community`, `Contribute` and `Blog` sections.
-
-## Running the website locally
-You can run the website locally using [Hugo (Extended version)](https://gohugo.io/), or you can run it in a container runtime. We strongly recommend using the container runtime, as it gives deployment consistency with the live website.
-
-## Prerequisites
-
-To use this repository, you need the following installed locally:
-
-- [npm](https://www.npmjs.com/)
-- [Go](https://go.dev/)
-- [Hugo (Extended version)](https://gohugo.io/)
-- A container runtime, like [Docker](https://www.docker.com/).
-
-Before you start, install the dependencies. Clone the repository and navigate to the site directory:
-
-```bash
-# Clone your repository fork from the previous step
-git clone --recurse-submodules git@github.com:<your github username>/kustomize.git
-cd kustomize/site
-```
-
-The Kustomize website uses the [Docsy Hugo theme](https://github.com/google/docsy#readme). Even if you plan to run the website in a container, we strongly recommend pulling in the submodule and other development dependencies by running the following:
-
-### Windows
-```powershell
-# fetch submodule dependencies
-git submodule update --init --recursive --depth 1
-```
-
-### Linux / other Unix
-```bash
-# fetch submodule dependencies
-make module-init
-```
-
-## Running the website using a container
-
-To build the site in a container, run the following:
+### -- via -- container
 
 ```bash
 # You can set $CONTAINER_ENGINE to the name of any Docker-like container tool
@@ -56,13 +43,14 @@ make container-image
 make container-serve
 ```
 
-If you see errors, it probably means that the hugo container did not have enough computing resources available. To solve it, increase the amount of allowed CPU and memory usage for Docker on your machine ([MacOS](https://docs.docker.com/desktop/settings/mac/) and [Windows](https://docs.docker.com/desktop/settings/windows/)).
+* TODO: If you see errors, it probably means that the hugo container did not have enough computing resources available. 
+To solve it, increase the amount of allowed CPU and memory usage for Docker on your machine ([MacOS](https://docs.docker.com/desktop/settings/mac/) and [Windows](https://docs.docker.com/desktop/settings/windows/)).
 
 Open up your browser to <http://localhost:1313> to view the website. As you make changes to the source files, Hugo updates the website and forces a browser refresh.
 
 If you need to update the `HUGO_VERSION`, edit it in the [`netlify.toml`](netlify.toml#L7) file and then run `make tools` to update the pinned version of Hugo in [hack/go.mod](/hack/go.mod#L9).
 
-## Running the website locally using Hugo
+### -- via -- Hugo
 
 Make sure to install the Hugo extended version specified by the `HUGO_VERSION` environment variable in the [`netlify.toml`](netlify.toml#L7) file.
 
