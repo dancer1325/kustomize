@@ -2,12 +2,9 @@
 
 * _Updated: December 2021_
 
-This document describes the repository organization and the kustomize
-build process. It's meant to lower the barrier to learning and
-contributing to the code base.
-
-If not kept up to date, it will just be a historical snapshot.
-
+* goal
+  * repository organization
+  * kustomize build process
 
 ## Repository layout
 
@@ -34,68 +31,55 @@ If not kept up to date, it will just be a historical snapshot.
 
  |  directory  | purpose      |
  | ---------:  | :---------- |
- |       `api` | The [`api`] module, holding high level kustomize code, suitable for import by other programs.  |
- |       `cmd` | Various Go programs aiding repo management. See also `hack`. As an outlier, includes the special [`cmd/config`] module. |
+ |       `api` | [`api`] module / <br/> &nbsp; &nbsp; HIGH level kustomize code <br/> &nbsp; &nbsp; suitable for import by other programs  |
+ |       `cmd` | == Various Go programs / aid repo management |
  |      `docs` | Old home of documentation; contains pointers to new homes: [human-edited docs], [generated docs] and [rendered docs]. |
- |  `examples` | Full kustomization examples that run as pre-merge tests.  |
- | `functions` | Examples of plugins in KRM function form. TODO([3922]): Move under `plugin`. |
+ |  `examples` | Full kustomization examples / run as pre-merge tests  |
+ | `functions` | Examples of plugins \|  KRM function form <br/> TODO([3922]): Move under `plugin`. |
  |      `hack` | Various shell scripts to help with code management. |
- | `kustomize` | The [`kustomize`] module holds the `main.go` for kustomize. |
- |     `kyaml` | The [`kyaml`] module, holding Kubernetes-specific YAML editing packages used by the [`api`] module. Wraps [`go-yaml`] v3.|
+ | `kustomize` | [`kustomize`] module / holds the `main.go` for kustomize. |
+ |     `kyaml` | The [`kyaml`] module, holding Kubernetes-specific YAML editing packages used by the [`api`] module. <br/> Wraps [`go-yaml`] v3.|
  |    `plugin` | Examples of Kustomize plugins. |
  | `releasing` | Instructions for releasing the various modules. |
  |      `site` | Old generated documentation, kept to provide redirection links to the new docs. |
 
 
-## Modules
+## Go Modules
 
 [semantically versioned]: https://semver.org
 [Go modules]: https://github.com/golang/go/wiki/Modules
 
-The [Go modules] in the kustomize repository are [semantically versioned].
-
+* [semantically versioned]
 
 ### `kustomize`
 
-> _Depends on [`api`], [`cmd/config`], [`kyaml`]_
-
-The [`kustomize` module] contains the `main.go` for `kustomize`, buildable with
-
-```
-(cd kustomize; go install .)
-```
+* -- depends on -- [`api`], [`cmd/config`], [`kyaml`]
+* ⭐️`main.go` ⭐️ 
+  * if you want to build
+    ```
+    (cd kustomize; go install .)
+    ```
 
 [appears in kubectl]: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/kubectl/pkg/cmd/kustomize/kustomize.go
 
-Below this are packages containing
-[cobra](http://github.com/spf13/cobra) commands implementing `build`,
-`edit`, `fix`, etc., packages linked together by `main.go`.
-
-These command packages are intentionally public, semantically
-versioned, and can be used in other programs.  Specifically, the
-`kustomize build` command [appears in kubectl] as `kubectl kustomize`.
-
-The code in the `build` package is dominated by flag validation,
-with minimal business logic.  The critical lines are something
-like
-
-```
-# Make a kustomizer.
-k := krusty.MakeKustomizer(
-  HonorKustomizeFlags(krusty.MakeDefaultOptions()),
-)
-
-# Run the kustomizer, sending location of kustomization.yaml
-m := k.Run(fSys, "/path/to/dir")
-
-# Write the result as YAML.
-writer.Write(m.AsYaml())
-```
-
-The `krusty` package is in the [`api`] module.
+* packages / 
+  * linked together -- by -- `main.go`
+  * contain [cobra](http://github.com/spf13/cobra) commands
+    * are
+      * `build`,
+        * has
+          * flag validation
+          * MINIMAL business logic 
+      * `edit`,
+      * `fix`,
+    * public,
+    * semantically versioned
+    * can be used | OTHER programs
+      * _Example:_ `kustomize build` == `kubectl kustomize`
 
 ### `api`
 
+* TODO:
 > _Depends on [`kyaml`] and code generated from builtin plugin modules_
 
 The [`api` module] is used by CLI programs like `kustomize` and `kubectl`
