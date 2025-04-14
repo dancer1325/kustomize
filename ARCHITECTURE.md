@@ -33,7 +33,6 @@
  | ---------:  | :---------- |
  |       `api` | [`api`] module / <br/> &nbsp; &nbsp; HIGH level kustomize code <br/> &nbsp; &nbsp; suitable for import by other programs  |
  |       `cmd` | == Various Go programs / aid repo management |
- |      `docs` | Old home of documentation; contains pointers to new homes: [human-edited docs], [generated docs] and [rendered docs]. |
  |  `examples` | Full kustomization examples / run as pre-merge tests  |
  | `functions` | Examples of plugins \|  KRM function form <br/> TODO([3922]): Move under `plugin`. |
  |      `hack` | Various shell scripts to help with code management. |
