@@ -1,16 +1,5 @@
 # Kustomize roadmap 2023-2024
 
-This document describes the items that we hope to make progress on over the next
-1 year (H2 2023 and H1 2024). Take this roadmap as more of what we hope to achieve
-rather than what we promise to achieve, as some items in this doc are highly dependent
-on the success that we have on-ramping new contributors to the project, and other
-items will depend on external contributions, which can vary.
-
-If you are interested in contributing to a particular area, you can look through
-the project board for that area and assign yourself to one of the issues. It is
-recommended to start with smaller issues to ramp up on the project before starting
-to tackle larger issues.
-
 Project boards:
 https://github.com/orgs/kubernetes-sigs/projects/50
 https://github.com/orgs/kubernetes-sigs/projects/51
@@ -18,67 +7,29 @@ https://github.com/orgs/kubernetes-sigs/projects/52
 https://github.com/orgs/kubernetes-sigs/projects/53
 https://github.com/orgs/kubernetes-sigs/projects/54
 
-## Kustomize contributors (at time of writing):
-
-kustomize owner: @natasha41575
-
-kustomize maintainers: @annasong20, @koba1t
-
-kustomize contributors: @varshaprasad96
-
-
 # H2 2023
 
-## Goal: Create kustomize leadership and contributor playbooks
+## Goal: Create kustomize leadership & contributor playbooks
 
-Contributors: natasha41575, annasong20
-
-Priority: High
-
-Effort: Medium
-
-In the past, when the leads stopped contributing (for various reasons, not covered here)
-in various kubernetes projects, it left a wide hole that few could easily fill,
-leaving the remaining leads in a bad position and the project understaffed. We should assume
-that we will need to onboard new maintainers in the future, and should have playbooks
-for doing so. As we grow the contributor base in kustomize, we will build these playbooks for
-those who are contributing and those who are looking to grow into kustomize leaders.
-To ensure the long term health and stability of the project, we should have:
-
-- On-boarding guides for new contributors
-- Clear guidelines for how to climb the kustomize ladder from contributor to approver to owner
-- A plan (maybe a schedule) for future kustomize cohorts
-- A succession plan, in case the current kustomize leads ever decide to step down
+* contributor playbooks
+  * allows
+    * onboard NEW maintainers -> long term health & stability of the project
+  * -- via --
+    - On-boarding guides for new contributors
+    - Clear guidelines for how to climb the kustomize ladder from contributor -- to -- approver -- to -- owner
+    - A plan (maybe a schedule) for future kustomize cohorts
+    - succession plan
 
 ## Goal: Onboard 2-5 new contributors to kustomize
 
-Contributors: natasha41575, annasong20, koba1t
+* 3-6 month training program    
+  * talk sessions,
+  * bug scrubs,
+  * issue triage,
+  * PR reviews
+  * coding projects for
 
-Priority: High
-
-Effort: High
-
-In order to make progress on kustomize goals in the future, we need to increase the
-level of staffing on kustomize. We should leverage community contributions to keep kustomize
-healthy and making progress.
-
-The primary means in which we will try to find new kustomize contributors is through the new kustomize
-maintainer training cohort. We will lead a group of ~20 kubernetes community members through a 3-6 month
-training program, involving talk sessions, bug scrubs, issue triage, PR reviews, and coding projects for
-each member.
-
-See [our call for help](https://groups.google.com/a/kubernetes.io/g/dev/c/M5OphEVsv5o/m/zc6G4H15AAAJ) for more
-specific details about the program.
-
-The effort from existing kustomize maintainers here will be to:
-- Organize the cohort, so that each cohort member feels productive and understands what they should work on
-- Align motivation of the cohort members with the work that we assign to them.
-- Review PRs from cohort members in a timely manner.
-- Be the point(s) of contact for questions/escalations
-- Lead weekly stand-ups and monthly bug scrubs
-
-At the end of all this, if we have a small team of contributors to kustomize, who understand its founding
-philosophy and intentions, we should be able to keep the project up to date.
+* [hwo to apply](https://groups.google.com/a/kubernetes.io/g/dev/c/M5OphEVsv5o/m/zc6G4H15AAAJ)
 
 ## Goal: Improve kustomize extensibility through KRM functions and CRD support
 
@@ -88,8 +39,9 @@ Priority: High
 
 Effort: High
 
-Project board: https://github.com/orgs/kubernetes-sigs/projects/53/views/1
+* [Project board](https://github.com/orgs/kubernetes-sigs/projects/53/views/1)
 
+* TODO:
 For a long time, we have supported KRM functions as the proper way to implement custom generators and transformers.
 However, due to limited staffing, we have been unable to drive this feature out of alpha in kustomize. The two
 main features which we hope to make progress on are Composition and Catalog, two long-standing proposals for which
