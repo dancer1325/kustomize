@@ -19,9 +19,7 @@
 - [Installation instructions](https://github.com/dancer1325/kubernetes-sigs-cli-experimental/tree/master/site/content/en/installation/kustomize)
 - [General documentation](https://github.com/dancer1325/kubernetes-sigs-cli-experimental/blob/master/site/content/en/guides/introduction/kustomize.md)
 - [Examples](examples)
-
-[![Build Status](https://prow.k8s.io/badge.svg?jobs=kustomize-presubmit-master)](https://prow.k8s.io/job-history/kubernetes-jenkins/pr-logs/directory/kustomize-presubmit-master)
-[![Go Report Card](https://goreportcard.com/badge/github.com/kubernetes-sigs/kustomize)](https://goreportcard.com/report/github.com/kubernetes-sigs/kustomize)
+- [docs](site/content/en) 
 
 ## kubectl integration
 
