@@ -1,39 +1,37 @@
 # kustomize
 
-`kustomize` lets you customize raw, template-free YAML
-files for multiple purposes, leaving the original YAML
-untouched and usable as is.
+* `kustomize`
+  * allows you,
+    * customize YAML /
+      * raw OR template-free
+      * MULTIPLE purposes
+      * untouchable original YAML
+  * targets kubernetes /
+    * understands & can patch [kubernetes style] API objects
+  * ==
+    * [`make`]
+      * Reason: 🧠declarative | file🧠
+    * [`sed`]
+      * Reason:🧠emits edited text🧠
 
-`kustomize` targets kubernetes; it understands and can
-patch [kubernetes style] API objects.  It's like
-[`make`], in that what it does is declared in a file,
-and it's like [`sed`], in that it emits edited text.
+* -- sponsored by -- [sig-cli] ([KEP])
 
-This tool is sponsored by [sig-cli] ([KEP]).
-
- - [Installation instructions](https://kubectl.docs.kubernetes.io/installation/kustomize/)
- - [General documentation](https://kubectl.docs.kubernetes.io/references/kustomize/)
- - [Examples](examples)
+- [Installation instructions](https://github.com/dancer1325/kubernetes-sigs-cli-experimental/tree/master/site/content/en/installation/kustomize)
+- [General documentation](https://github.com/dancer1325/kubernetes-sigs-cli-experimental/blob/master/site/content/en/guides/introduction/kustomize.md)
+- [Examples](examples)
 
 [![Build Status](https://prow.k8s.io/badge.svg?jobs=kustomize-presubmit-master)](https://prow.k8s.io/job-history/kubernetes-jenkins/pr-logs/directory/kustomize-presubmit-master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/kubernetes-sigs/kustomize)](https://goreportcard.com/report/github.com/kubernetes-sigs/kustomize)
 
 ## kubectl integration
 
-To find the kustomize version embedded in recent versions of kubectl, run `kubectl version`:
-
-```sh
-> kubectl version --client
-Client Version: v1.31.0
-Kustomize Version: v5.4.2
-```
-
-The kustomize build flow at [v2.0.3] was added
-to [kubectl v1.14][kubectl announcement].  The kustomize
-flow in kubectl remained frozen at v2.0.3 until kubectl v1.21,
-which [updated it to v4.0.5][kust-in-kubectl update]. It will
-be updated on a regular basis going forward, and such updates
-will be reflected in the Kubernetes release notes.
+* 💡== embedded | kubectl💡
+    ```sh
+    > kubectl version --client
+    Client Version: v1.31.0
+    Kustomize Version: v5.4.2
+    ```
+  * [kubectl v1.14][kubectl announcement]
 
 | Kubectl version | Kustomize version |
 | --------------- | ----------------- |
@@ -52,87 +50,63 @@ will be reflected in the Kubernetes release notes.
 [#1500]: https://github.com/kubernetes-sigs/kustomize/issues/1500
 [kust-in-kubectl update]: https://github.com/kubernetes/kubernetes/blob/4d75a6238a6e330337526e0513e67d02b1940b63/CHANGELOG/CHANGELOG-1.21.md#kustomize-updates-in-kubectl
 
-For examples and guides for using the kubectl integration please
-see the [kubernetes documentation].
+* how to use the kubectl integration?
+  * see [kubernetes documentation]
 
-## Usage
-
+## How to use?
 
 ### 1) Make a [kustomization] file
 
-In some directory containing your YAML [resource]
-files (deployments, services, configmaps, etc.), create a
-[kustomization] file.
+* | SOME directory / contain your YAML [resource] files (deployments, services, configmaps, etc.)
+  * create a [kustomization] file
+  * add a COMMON label
 
-This file should declare those resources, and any
-customization to apply to them, e.g. _add a common
-label_.
+    ```
+    base: kustomization + resources
+    
+    kustomization.yaml                                      deployment.yaml                                                 service.yaml
+    +---------------------------------------------+         +-------------------------------------------------------+       +-----------------------------------+
+    | apiVersion: kustomize.config.k8s.io/v1beta1 |         | apiVersion: apps/v1                                   |       | apiVersion: v1                    |
+    | kind: Kustomization                         |         | kind: Deployment                                      |       | kind: Service                     |
+    | labels:                                     |         | metadata:                                             |       | metadata:                         |
+    | - includeSelectors: true                    |         |   name: myapp                                         |       |   name: myapp                     |
+    |   pairs:                                    |         | spec:                                                 |       | spec:                             |
+    |     app: myapp                              |         |   selector:                                           |       |   selector:                       |
+    | resources:                                  |         |     matchLabels:                                      |       |     app: myapp                    |
+    |   - deployment.yaml                         |         |       app: myapp                                      |       |   ports:                          |
+    |   - service.yaml                            |         |   template:                                           |       |     - port: 6060                  |
+    | configMapGenerator:                         |         |     metadata:                                         |       |       targetPort: 6060            |
+    |   - name: myapp-map                         |         |       labels:                                         |       +-----------------------------------+
+    |     literals:                               |         |         app: myapp                                    |
+    |       - KEY=value                           |         |     spec:                                             |
+    +---------------------------------------------+         |       containers:                                     |
+                                                            |         - name: myapp                                 |
+                                                            |           image: myapp                                |
+                                                            |           resources:                                  |
+                                                            |             limits:                                   |
+                                                            |               memory: "128Mi"                         |
+                                                            |               cpu: "500m"                             |
+                                                            |           ports:                                      |
+                                                            |             - containerPort: 6060                     |
+                                                            +-------------------------------------------------------+
+    ```
 
-```
+    > ```
+    > ~/someApp
+    > ├── deployment.yaml
+    > ├── kustomization.yaml
+    > └── service.yaml
+    > ```
 
-base: kustomization + resources
+* `kustomize build ~/someApp`
+  * generate customized YAML 
+* `kustomize build ~/someApp | kubectl apply -f -`
+  * YAML can be DIRECTLY [applied] | cluster
 
-kustomization.yaml                                      deployment.yaml                                                 service.yaml
-+---------------------------------------------+         +-------------------------------------------------------+       +-----------------------------------+
-| apiVersion: kustomize.config.k8s.io/v1beta1 |         | apiVersion: apps/v1                                   |       | apiVersion: v1                    |
-| kind: Kustomization                         |         | kind: Deployment                                      |       | kind: Service                     |
-| labels:                                     |         | metadata:                                             |       | metadata:                         |
-| - includeSelectors: true                    |         |   name: myapp                                         |       |   name: myapp                     |
-|   pairs:                                    |         | spec:                                                 |       | spec:                             |
-|     app: myapp                              |         |   selector:                                           |       |   selector:                       |
-| resources:                                  |         |     matchLabels:                                      |       |     app: myapp                    |
-|   - deployment.yaml                         |         |       app: myapp                                      |       |   ports:                          |
-|   - service.yaml                            |         |   template:                                           |       |     - port: 6060                  |
-| configMapGenerator:                         |         |     metadata:                                         |       |       targetPort: 6060            |
-|   - name: myapp-map                         |         |       labels:                                         |       +-----------------------------------+
-|     literals:                               |         |         app: myapp                                    |
-|       - KEY=value                           |         |     spec:                                             |
-+---------------------------------------------+         |       containers:                                     |
-                                                        |         - name: myapp                                 |
-                                                        |           image: myapp                                |
-                                                        |           resources:                                  |
-                                                        |             limits:                                   |
-                                                        |               memory: "128Mi"                         |
-                                                        |               cpu: "500m"                             |
-                                                        |           ports:                                      |
-                                                        |             - containerPort: 6060                     |
-                                                        +-------------------------------------------------------+
+### 2) Create [variants] -- using -- [overlays]
 
-```
-
-File structure:
-
-> ```
-> ~/someApp
-> ├── deployment.yaml
-> ├── kustomization.yaml
-> └── service.yaml
-> ```
-
-The resources in this directory could be a fork of
-someone else's configuration.  If so, you can easily
-rebase from the source material to capture
-improvements, because you don't modify the resources
-directly.
-
-Generate customized YAML with:
-
-```
-kustomize build ~/someApp
-```
-
-The YAML can be directly [applied] to a cluster:
-
-> ```
-> kustomize build ~/someApp | kubectl apply -f -
-> ```
-
-
-### 2) Create [variants] using [overlays]
-
-Manage traditional [variants] of a configuration - like
-_development_, _staging_ and _production_ - using
-[overlays] that modify a common [base].
+* use cases
+  * manage TRADITIONAL [variants] of a configuration -- via -- [overlays] / modify a COMMON [base]
 
 ```
 
@@ -156,8 +130,6 @@ kustomization.yaml                                      replica_count.yaml      
                                                                                                 +------------------------------------------+
 ```
 
-
-File structure:
 > ```
 > ~/someApp
 > ├── base
@@ -175,44 +147,17 @@ File structure:
 >         └── replica_count.yaml
 > ```
 
-Take the work from step (1) above, move it into a
-`someApp` subdirectory called `base`, then
-place overlays in a sibling directory.
+* steps
+  * place 
+    * [step 1 files](#1-make-a-kustomization-file) | `someApp/base/` subdirectory called `base`
+    * overlays | `someApp/overlays/`
+* allows
+  * split management
+    * == "base/" owners != overlays/" owners
 
-An overlay is just another kustomization, referring to
-the base, and referring to patches to apply to that
-base.
-
-This arrangement makes it easy to manage your
-configuration with `git`.  The base could have files
-from an upstream repository managed by someone else.
-The overlays could be in a repository you own.
-Arranging the repo clones as siblings on disk avoids
-the need for git submodules (though that works fine, if
-you are a submodule fan).
-
-Generate YAML with
-
-```sh
-kustomize build ~/someApp/overlays/production
-```
-
-The YAML can be directly [applied] to a cluster:
-
-> ```sh
-> kustomize build ~/someApp/overlays/production | kubectl apply -f -
-> ```
-
-## Community
-
-- [file a bug](https://kubectl.docs.kubernetes.io/contributing/kustomize/bugs/)
-- [contribute a feature](https://kubectl.docs.kubernetes.io/contributing/kustomize/features/)
-- [propose a larger enhancement](https://github.com/kubernetes-sigs/kustomize/tree/master/proposals)
-
-### Code of conduct
-
-Participation in the Kubernetes community
-is governed by the [Kubernetes Code of Conduct].
+* uses
+  * `kustomize build ~/someApp/overlays/production | kubectl apply -f -`
+    * generate YAML / directly [applied] | cluster
 
 [`make`]: https://www.gnu.org/software/make
 [`sed`]: https://www.gnu.org/software/sed
