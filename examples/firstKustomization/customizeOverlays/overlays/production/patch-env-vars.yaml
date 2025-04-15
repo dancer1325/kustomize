@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-nginx
+spec:
+  template:
+    spec:
+      containers:
+        - name: nginx
+          env:
+            - name: ENVIRONMENT
+              value: prod
+  selector:
+    matchLabels:
+      app: nginx
