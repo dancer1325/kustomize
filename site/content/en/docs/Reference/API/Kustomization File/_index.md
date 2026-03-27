@@ -6,3 +6,5 @@ date: 2023-09-17
 description: >
   The Kustomization file is the entry point for Kustomize execution.
 ---
+
+* TODO: take notes here OR source code?

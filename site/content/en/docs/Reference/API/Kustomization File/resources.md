@@ -7,29 +7,22 @@ description: >
     Resources to include.
 ---
 
-Each entry in this list must be a path to a _file_, or a path (or URL) referring to another
-kustomization _directory_, e.g.
+* == list(paths)
+  * paths
+    * requirements
+      * EACH path ==    >=1 k8s manifest
+        * if there are >1 -> separated by `---`
+    * ALLOWED paths
+      * path -- to a -- file, OR
+      * path (or URL) -- to -- another kustomization directory
+    * are read & processed -- through -- depth-first order
+      * == PREVIOUSLY to pass to NEXT path, end read & process that item + item's children 
 
-```yaml
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-resources:
-- myNamespace.yaml
-- sub-dir/some-deployment.yaml
-- ../../commonbase
-- github.com/kubernetes-sigs/kustomize/examples/multibases?ref=v1.0.6
-- deployment.yaml
-- github.com/kubernets-sigs/kustomize/examples/helloWorld?ref=test-branch
-```
-
-Resources will be read and processed in depth-first order.
-
-Files should contain k8s resources in YAML form. A file may contain multiple resources separated by
-the document marker `---`.  File paths should be specified _relative_ to the directory holding the
+*  File paths should be specified _relative_ to the directory holding the
 kustomization file containing the `resources` field.
 
-Directory specification can be relative, absolute, or part of a URL.  URL specifications should
-follow the [hashicorp URL] format.  The directory must contain a `kustomization.yaml` file.
+Directory specification can be relative, absolute, or part of a URL
+* URL specification
+  * follow the [hashicorp URL format](https://github.com/hashicorp/go-getter#url-format) 
+*  The directory must contain a `kustomization.yaml` file.
 
-[hashicorp URL]: https://github.com/hashicorp/go-getter#url-format
