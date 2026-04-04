@@ -7,14 +7,14 @@
       * MULTIPLE purposes
       * untouchable original YAML
   * targets kubernetes /
-    * understands & can patch [kubernetes style] API objects
+    * understands & can patch [kubernetes style API objects](https://kubectl.docs.kubernetes.io/references/kustomize/glossary/#kubernetes-style-object)
   * ==
     * [`make`]
       * Reason: 🧠declarative | file🧠
     * [`sed`]
       * Reason:🧠emits edited text🧠
 
-* -- sponsored by -- [sig-cli] ([KEP])
+* -- sponsored by -- [sig-cli](https://github.com/kubernetes/enhancements/blob/master/keps/sig-cli/2377-Kustomize/README.md)
 
 - [Installation instructions](https://github.com/dancer1325/kubernetes-sigs-cli-experimental/tree/master/site/content/en/installation/kustomize)
 - [General documentation](https://github.com/dancer1325/kubernetes-sigs-cli-experimental/blob/master/site/content/en/guides/introduction/kustomize.md)
@@ -29,31 +29,35 @@
     Client Version: v1.31.0
     Kustomize Version: v5.4.2
     ```
-  * [kubectl v1.14][kubectl announcement]
+  * requirements
+    * [kubectl v1.14+](https://kubernetes.io/blog/2019/03/25/kubernetes-1-14-release-announcement)
 
-| Kubectl version | Kustomize version |
-| --------------- | ----------------- |
-| < v1.14         | n/a               |
-| v1.14-v1.20     | v2.0.3            |
-| v1.21           | v4.0.5            |
-| v1.22           | v4.2.0            |
-| v1.23           | v4.4.1            |
-| v1.24           | v4.5.4            |
-| v1.25           | v4.5.7            |
-| v1.26           | v4.5.7            |
-| v1.27           | v5.0.1            |
+| Kubectl version | Kustomize version                                                          |
+| --------------- |----------------------------------------------------------------------------|
+| < v1.14         | n/a                                                                        |
+| v1.14-v1.20     | [v2.0.3](https://github.com/kubernetes-sigs/kustomize/releases/tag/v2.0.3) |
+| v1.21           | v4.0.5                                                                     |
+| v1.22           | v4.2.0                                                                     |
+| v1.23           | v4.4.1                                                                     |
+| v1.24           | v4.5.4                                                                     |
+| v1.25           | v4.5.7                                                                     |
+| v1.26           | v4.5.7                                                                     |
+| v1.27           | v5.0.1                                                                     |
 
-[v2.0.3]: https://github.com/kubernetes-sigs/kustomize/releases/tag/v2.0.3
+TODO: why these next links if they are NOT refered in the documentation?
+
 [#2506]: https://github.com/kubernetes-sigs/kustomize/issues/2506
 [#1500]: https://github.com/kubernetes-sigs/kustomize/issues/1500
 [kust-in-kubectl update]: https://github.com/kubernetes/kubernetes/blob/4d75a6238a6e330337526e0513e67d02b1940b63/CHANGELOG/CHANGELOG-1.21.md#kustomize-updates-in-kubectl
 
-* how to use the kubectl integration?
-  * see [kubernetes documentation]
+
+* [MORE](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/)
 
 ## How to use?
 
-### 1) Make a [kustomization] file
+### 1) Make a [kustomization](https://kubectl.docs.kubernetes.io/references/kustomize/glossary/#kustomization) file
+
+TODO:
 
 * | SOME directory / contain your YAML [resource] files (deployments, services, configmaps, etc.)
   * create a [kustomization] file
@@ -160,15 +164,10 @@ kustomization.yaml                                      replica_count.yaml      
 [`make`]: https://www.gnu.org/software/make
 [`sed`]: https://www.gnu.org/software/sed
 [DAM]: https://kubectl.docs.kubernetes.io/references/kustomize/glossary/#declarative-application-management
-[KEP]: https://github.com/kubernetes/enhancements/blob/master/keps/sig-cli/2377-Kustomize/README.md
 [Kubernetes Code of Conduct]: code-of-conduct.md
 [applied]: https://kubectl.docs.kubernetes.io/references/kustomize/glossary/#apply
 [base]: https://kubectl.docs.kubernetes.io/references/kustomize/glossary/#base
 [declarative configuration]: https://kubectl.docs.kubernetes.io/references/kustomize/glossary/#declarative-application-management
-[kubectl announcement]: https://kubernetes.io/blog/2019/03/25/kubernetes-1-14-release-announcement
-[kubernetes documentation]: https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/
-[kubernetes style]: https://kubectl.docs.kubernetes.io/references/kustomize/glossary/#kubernetes-style-object
-[kustomization]: https://kubectl.docs.kubernetes.io/references/kustomize/glossary/#kustomization
 [overlay]: https://kubectl.docs.kubernetes.io/references/kustomize/glossary/#overlay
 [overlays]: https://kubectl.docs.kubernetes.io/references/kustomize/glossary/#overlay
 [release page]: https://github.com/kubernetes-sigs/kustomize/releases
